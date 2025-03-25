@@ -31,8 +31,8 @@ def process_file(input_filename, output_filename, key):
 
 if __name__ == "__main__":
     input_file = "random_text.txt"
-    output_file = "random_text_2.txt"
-    key = "бо"
+    output_file = "random_text_20.txt"
+    key = "божехраникороляиегон"
     process_file(input_file, output_file, key)
 
-#шифрувалося повідомленням: богородицабогсынбожи
+#шифрувалося повідомленням: божехраникороляиегонарод
