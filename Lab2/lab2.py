@@ -3,7 +3,7 @@ from collections import Counter
 
 def index_of_coincidence(text):
     alphabet = "абвгдежзийклмнопрстуфхцчшщьыъэюя"
-    text = ''.join([char for char in text if char in alphabet])  # Убираем лишние символы
+    text = ''.join([char for char in text if char in alphabet])  
     
     if len(text) == 0:
         return 0.0
@@ -21,9 +21,9 @@ def process_directory(directory):
                 with open(filepath, 'r', encoding='utf-8') as file:
                     text = file.read()
                 ic = index_of_coincidence(text)
-                print(f"Индекс соответствия для '{filename}': {ic:.4f}")
+                print(f"Index for '{filename}': {ic:.4f}")
             except FileNotFoundError:
-                print(f"Ошибка: файл {filename} не найден.")
+                print(f"Error: file {filename} ot found.")
 
 if __name__ == "__main__":
     directory = "E:\Sym_cr\Lab2"
