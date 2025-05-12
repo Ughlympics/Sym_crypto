@@ -8,6 +8,9 @@ def comparison(a, b):
         return []
 
     if d == 1:
+        a1 = a
+        b1 = b
+        n1 = n
         _, inv_a1, _ = extended_gcd(a1, n1)
         x0 = (b1 * inv_a1) % n1
         return x0

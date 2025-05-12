@@ -2,7 +2,7 @@ from collections import Counter
 from itertools import permutations
 from math import gcd
 from gcd import extended_gcd
-
+from comparison import comparison
 
 alphabet = 'абвгдеёжзийклмнопрстуфхцчшщыьэюя'
 letter_to_index = {char: idx for idx, char in enumerate(alphabet)}
@@ -25,7 +25,7 @@ def most_common_bigrams(filepath):
 #     print(f"{bigram}: {count}")
 
 def find_keys (bigrams):
-    keys = []
+    keys = set()
 
     common_bigrams = ['ст', 'но', 'ен', 'то', 'на'] 
     known_nums = [bigram_to_number(b) for b in bigrams]
@@ -37,16 +37,26 @@ def find_keys (bigrams):
 
         for (y1, y2) in permutations(known_nums, 2):
             dy = (y1 - y2) % 961
+            a_list = comparison(dx, dy)
+            if isinstance(a_list, int):
+                a_list = [a_list]
 
-            k, inv_dx, _ = extended_gcd(dx, 961)
+            for a in a_list:
+                b = (y1 - a * x1) % 961
+                keys.add((a, b))
 
-            if k != 1:
-                continue
+            #######################
+            # dy = (y1 - y2) % 961
 
-            a = (dy * inv_dx) % 961
-            b = (y1 - a * x1) % 961
+            # k, inv_dx, _ = extended_gcd(dx, 961)
 
-            keys.append((a, b))
+            # if k != 1:
+            #     continue
+
+            # a = comparison(dx, dy)
+            # b = (y1 - a * x1) % 961
+
+            # keys.append((a, b))
 
 
     print("Possible keys:")
