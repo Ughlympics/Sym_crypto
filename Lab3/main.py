@@ -29,20 +29,16 @@ def is_likely_russian(text, threshold=0.6):
     if total_letters == 0:
         return False
 
-    # Частотные буквы русского языка
     frequent_letters = {'о', 'е', 'а', 'и', 'н', 'т', 'с', 'л', 'в', 'р'}
     letter_counts = Counter(filter(str.isalpha, text))
 
-    # Доля частотных русских букв
     frequent_total = sum(letter_counts[l] for l in frequent_letters if l in letter_counts)
     freq_ratio = frequent_total / total_letters
 
-    # Проверка на мусорные символы
     bad_chars = set("qwertyuiopasdfghjklzxcvbnm0123456789!@#$%^&*<>/\\")
     if any(c in bad_chars for c in text):
         return False
 
-    # Простой порог: если доля частотных букв > threshold (по умолчанию 50%)
     return freq_ratio > threshold
 
 def decrypt_bigram(text, key):
@@ -75,30 +71,26 @@ def decrypt_bigram(text, key):
 
 
 def main():
+
     input_file = "16.txt"
     
-    # Читаем текст
     with open(input_file, encoding="utf-8") as f:
         cipher_text = f.read().replace("\n", "").lower()
 
-    
-    cnt = most_common_bigrams("16.txt")
-    print("Top 5 most common bigrams:")
-    for bigram in cnt:
-        print(f"{bigram}")
+  
+    cnt = most_common_bigrams(input_file)
 
     k = find_keys(cnt)
-    print("Possible keys:") 
 
     for key in k:
         decrypted = decrypt_bigram(cipher_text, key)
         if decrypted and is_likely_russian(decrypted):
-            print(f"Ключ знайдено: {key}")
+            print(f"Key is found: {key}")
             with open("result.txt", "w", encoding="utf-8") as out:
                 out.write(decrypted)
             break
     else:
-        print("Не знайдено ключ.")
+        print("Key doesn`t exist.")
 
 if __name__ == "__main__":
     main()
