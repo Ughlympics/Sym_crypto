@@ -22,7 +22,7 @@ def modinv(a, m):
 #     most_common = [char for char, _ in freqs.most_common(top_n)]
 #     return len(set(most_common) & FREQ_RU) >= threshold
 
-def is_likely_russian(text, threshold=0.6):
+def is_likely_russian(text, threshold=0.62):
     text = text.lower()
     total_letters = sum(c.isalpha() for c in text)
     
@@ -72,7 +72,7 @@ def decrypt_bigram(text, key):
 
 def main():
 
-    input_file = "16.txt"
+    input_file = "v8.txt"
     
     with open(input_file, encoding="utf-8") as f:
         cipher_text = f.read().replace("\n", "").lower()
