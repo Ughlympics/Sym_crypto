@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"log"
 	"os"
+	"strconv"
 )
 
 func LFSR(seed []int, taps []int, steps int) []int {
@@ -24,7 +25,7 @@ func LFSR(seed []int, taps []int, steps int) []int {
 }
 
 func GieffeGenerator(L1, L2, L3 []int) []int {
-	n := 500
+	n := 2048
 	result := make([]int, n)
 
 	for i := 0; i < n; i++ {
@@ -34,21 +35,23 @@ func GieffeGenerator(L1, L2, L3 []int) []int {
 	return result
 }
 
-func CountBits(filename string) int {
+// ReadInput loads the binary string from the file
+func ReadInput(filename string) []int {
 	file, err := os.Open(filename)
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer file.Close()
 
-	count := 0
+	var bits []int
 	scanner := bufio.NewScanner(file)
-	scanner.Split(bufio.ScanBytes)
-
 	for scanner.Scan() {
-		b := scanner.Bytes()[0]
-		if b == '0' || b == '1' {
-			count++
+		line := scanner.Text()
+		for _, ch := range line {
+			if ch == '0' || ch == '1' {
+				bit, _ := strconv.Atoi(string(ch))
+				bits = append(bits, bit)
+			}
 		}
 	}
 
@@ -56,5 +59,5 @@ func CountBits(filename string) int {
 		log.Fatal(err)
 	}
 
-	return count
+	return bits
 }
