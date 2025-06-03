@@ -1,5 +1,11 @@
 package lsfr
 
+import (
+	"bufio"
+	"log"
+	"os"
+)
+
 func LFSR(seed []int, taps []int, steps int) []int {
 	state := append([]int(nil), seed...)
 	result := make([]int, 0, steps)
@@ -26,4 +32,29 @@ func GieffeGenerator(L1, L2, L3 []int) []int {
 	}
 
 	return result
+}
+
+func CountBits(filename string) int {
+	file, err := os.Open(filename)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer file.Close()
+
+	count := 0
+	scanner := bufio.NewScanner(file)
+	scanner.Split(bufio.ScanBytes)
+
+	for scanner.Scan() {
+		b := scanner.Bytes()[0]
+		if b == '0' || b == '1' {
+			count++
+		}
+	}
+
+	if err := scanner.Err(); err != nil {
+		log.Fatal(err)
+	}
+
+	return count
 }
