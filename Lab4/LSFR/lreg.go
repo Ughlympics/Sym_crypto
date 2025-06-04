@@ -61,3 +61,44 @@ func ReadInput(filename string) []int {
 
 	return bits
 }
+
+////////////////
+
+func FindCandidates(inputSequence []int, lfsrLen int, taps []int) []string {
+	var candidates []string
+	total := 1 << lfsrLen // 2^length
+
+	for i := 0; i < total; i++ {
+		seed := intToBits(i, lfsrLen)
+		output := LFSR(seed, taps, len(inputSequence))
+
+		match := true
+		for j := 0; j < len(inputSequence); j++ {
+			if output[j] != inputSequence[j] {
+				match = false
+				break
+			}
+		}
+
+		if match {
+			candidates = append(candidates, bitsToString(seed))
+		}
+	}
+	return candidates
+}
+
+func intToBits(n int, length int) []int {
+	bits := make([]int, length)
+	for i := length - 1; i >= 0; i-- {
+		bits[i] = (n >> (length - 1 - i)) & 1
+	}
+	return bits
+}
+
+func bitsToString(bits []int) string {
+	var s string
+	for _, b := range bits {
+		s += strconv.Itoa(b)
+	}
+	return s
+}
